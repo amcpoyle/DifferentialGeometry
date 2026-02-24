@@ -24,13 +24,11 @@ class Arrow3d(Group):
         length    = np.linalg.norm(direction)
         unit      = direction / length
 
-        shaft_length = max(length - tip_height, 1e-6)
+        line_length = max(length - tip_height, 1e-6)
 
-        # Shaft using ManimGL's built-in Line3D
-        shaft = Line3D(start, start + unit * shaft_length, width=thickness)
-        shaft.set_color(color)
+        line = Line3D(start, start + unit * line_length, width=thickness)
+        line.set_color(color)
 
-        # Tip — ManimGL's Cone uses `radius`, not `base_radius`
         tip = Cone(radius=tip_radius, height=tip_height)
         tip.set_color(color)
 
@@ -43,6 +41,6 @@ class Arrow3d(Group):
             tip.apply_matrix(rot)
 
         # Place cone so its base meets the shaft tip
-        tip.move_to(start + unit * (shaft_length + tip_height / 2))
+        tip.move_to(start + unit * (line_length + tip_height / 2))
 
-        self.add(shaft, tip)
+        self.add(line, tip)
